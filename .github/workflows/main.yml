@@ -1,0 +1,45 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - master_adding_dockerfile
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+
+      - name: Build and test
+        id: build_and_test
+        run: |
+          ./gradlew build
+          # Kör enhetstesterna här
+
+  build_docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Docker image
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          docker build -t your-docker-image-name:${{ github.ref }} .
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push your-docker-image-name:${{ github.ref }}
+
+  deploy:
+    needs: build_docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Test Environment
+        run: |
+          echo "Simulerar deployment av image: your-docker-image-name:${{ github.ref }}"
