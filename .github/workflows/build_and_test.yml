@@ -20,6 +20,5 @@ jobs:
         distribution: 'adopt'
 
     - name: Build with Gradle
-      working-directory: group3assigntment3
-      run: | 
-       ./gradlew
+      working-directory: ${{ github.workspace }}
+      run: ./gradlew test
