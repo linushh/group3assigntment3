@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,47 +19,31 @@ jobs:
           java-version: 17
           distribution: 'adopt'
 
-  start_app:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: 17
-          distribution: 'adopt'
-
-      - name: Start Spring Boot Application
+      - name: Build
         run: |
-          java -jar build/libs/group3assignment3-0.0.1-SNAPSHOT.jar &
-          # Starta Spring Boot-applikationen i bakgrunden
+          ./gradlew build
         working-directory: $GITHUB_WORKSPACE
 
-  run_rest_assured_test:
-    needs: start_app
+  start_spring:
+    needs: build_and_test
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Start Spring Boot Application
+        run: |
+          java -jar $GITHUB_WORKSPACE/build/libs/group3assignment3-0.0.1-SNAPSHOT.jar
 
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: 17
-          distribution: 'adopt'
+  rest_assured_test:
+    needs: start_spring
+    runs-on: ubuntu-latest
 
+    steps:
       - name: Run Rest Assured Test
         run: |
           ./gradlew restAssuredTest
-          # Kör ditt Rest Assured-test här
-        working-directory: $GITHUB_WORKSPACE
+
 
   build_docker:
-    needs: run_rest_assured_test
     runs-on: ubuntu-latest
     steps:
       - name: Build Docker image
