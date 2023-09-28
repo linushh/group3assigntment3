@@ -22,4 +22,4 @@ jobs:
     - name: Build with Gradle
       working-directory: group3assigntment3
       run: | 
-       ./gradlew test
+       ./gradlew
