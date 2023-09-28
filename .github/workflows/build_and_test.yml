@@ -39,8 +39,7 @@ jobs:
 
     steps:
       - name: Run Rest Assured Test
-        run: |
-          ./gradlew
+        run: ./gradlew test
 
 
   build_docker:
