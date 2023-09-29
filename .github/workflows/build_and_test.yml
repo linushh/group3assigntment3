@@ -34,11 +34,16 @@ jobs:
     - name: Login to GitHub Packages
       run: echo "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" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
-    - name: Build and Push Docker Image
+    - name: Build Docker Image
       working-directory: ${{ github.workspace }}
       run: |
+        if [ ! -f "group3assignment3-0.0.1-SNAPSHOT.jar" ]; then
+          ./gradlew build
+        fi
         docker build -t docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }} .
-        docker push docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }}
+
+    - name: Push Docker Image
+      run: docker push docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }}
 
   deploy-to-test-environment:
     needs: build-and-push-docker-image
