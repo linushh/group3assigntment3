@@ -38,7 +38,7 @@ jobs:
     - name: Build Docker Image
       working-directory: ${{ github.workspace }}
       run: |
-        docker build -t docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }} .
+        docker build -t docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:master -f Dockerfile .
         
     - name: Push Docker Image
       env:
