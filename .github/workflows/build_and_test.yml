@@ -1,4 +1,4 @@
-name: Java Tests with Gradle
+name: Java Tests with Gradle and Docker
 
 on:
   push:
@@ -22,3 +22,28 @@ jobs:
     - name: Build with Gradle
       working-directory: ${{ github.workspace }}
       run: ./gradlew test
+
+  build-and-push-docker-image:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to GitHub Packages
+      run: echo "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" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+    - name: Build and Push Docker Image
+      working-directory: ${{ github.workspace }}
+      run: |
+        docker build -t docker.pkg.github.com/${{ github.repository }}/my-java-app:${{ github.ref_name }} .
+        docker push docker.pkg.github.com/${{ github.repository }}/my-java-app:${{ github.ref_name }}
+
+  deploy-to-test-environment:
+    needs: build-and-push-docker-image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print Docker Image Name
+      run: echo "Docker image to deploy:docker.pkg.github.com/${{ github.repository }}/my-java-app:${{ github.ref_name }}"
