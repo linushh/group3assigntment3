@@ -37,8 +37,8 @@ jobs:
     - name: Build and Push Docker Image
       working-directory: ${{ github.workspace }}
       run: |
-        docker build -t docker.pkg.github.com/${{ github.repository }}/my-java-app:${{ github.ref_name }} .
-        docker push docker.pkg.github.com/${{ github.repository }}/my-java-app:${{ github.ref_name }}
+        docker build -t docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }} .
+        docker push docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }}
 
   deploy-to-test-environment:
     needs: build-and-push-docker-image
@@ -46,4 +46,4 @@ jobs:
 
     steps:
     - name: Print Docker Image Name
-      run: echo "Docker image to deploy:docker.pkg.github.com/${{ github.repository }}/my-java-app:${{ github.ref_name }}"
+      run: echo "Docker image to deploy:docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }}"
