@@ -39,7 +39,7 @@ jobs:
       env:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PAT}}
       run: |
-        echo "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" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+        echo "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" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
         docker push docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }}
 
 
