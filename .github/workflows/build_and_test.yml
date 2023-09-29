@@ -19,9 +19,16 @@ jobs:
         java-version: 17
         distribution: 'adopt'
 
+    - name: Install Gradle
+      run: |
+        wget https://services.gradle.org/distributions/gradle-7.3-bin.zip
+        unzip -d /opt/gradle gradle-7.3-bin.zip
+        export PATH=$PATH:/opt/gradle/gradle-7.3/bin
+
     - name: Build with Gradle
       working-directory: ${{ github.workspace }}
-      run: ./gradlew test
+      run: |
+        ./gradlew clean build
 
   build-and-push-docker-image:
     needs: build
@@ -37,9 +44,6 @@ jobs:
     - name: Build Docker Image
       working-directory: ${{ github.workspace }}
       run: |
-        if [ ! -f "group3assignment3-0.0.1-SNAPSHOT.jar" ]; then
-          ./gradlew build
-        fi
         docker build -t docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }} .
 
     - name: Push Docker Image
