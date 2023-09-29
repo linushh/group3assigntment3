@@ -41,8 +41,6 @@ jobs:
     - name: Login to GitHub Packages
       run: echo "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" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
-    - name: Copy .jar File to Docker Context
-      run: cp group3assignment3-0.0.1-SNAPSHOT.jar ${{ github.workspace }}
 
     - name: Build Docker Image
       working-directory: ${{ github.workspace }}
