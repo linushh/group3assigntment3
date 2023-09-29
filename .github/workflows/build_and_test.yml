@@ -30,14 +30,6 @@ jobs:
       run: |
         ./gradlew clean build
 
-  build-and-push-docker-image:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
     - name: Build Docker Image
       working-directory: ${{ github.workspace }}
       run: |
@@ -52,7 +44,7 @@ jobs:
 
 
   deploy-to-test-environment:
-    needs: build-and-push-docker-image
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
