@@ -30,21 +30,36 @@ jobs:
       run: |
         ./gradlew clean build
 
+  build-docker-image:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Build Docker Image
       working-directory: ${{ github.workspace }}
       run: |
         docker build -t docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }} .
-        
-    - name: Push Docker Image
+
+  push-docker-image:
+    needs: build-docker-image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Login to Docker
       env:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PAT}}
       run: |
         echo "${{secrets.DOCKER_PAT}}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+    - name: Push Docker Image
+      run: |
         docker push docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }}
 
-
   deploy-to-test-environment:
-    needs: build
+    needs: push-docker-image
     runs-on: ubuntu-latest
 
     steps:
