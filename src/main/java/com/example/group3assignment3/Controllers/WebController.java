@@ -1,8 +1,10 @@
 package com.example.group3assignment3.Controllers;
 
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.group3assignment3.Respons;
 
 @RestController
 public class WebController {
@@ -15,18 +17,4 @@ public class WebController {
     public Respons helloName(@PathVariable String name) {
         return new Respons(name);
     }
-
-    public class Respons {
-
-        private String respons;
-
-        public Respons(String name) {
-            this.respons = "Hello, " + name;
-        }
-
-        public String getRespons() {
-            return respons;
-        }
-    }
-
 }

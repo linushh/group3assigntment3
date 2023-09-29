@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
