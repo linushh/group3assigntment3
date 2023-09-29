@@ -36,6 +36,8 @@ jobs:
         docker build -t docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }} .
         
     - name: Push Docker Image
+      env:
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PAT}}
       run: |
         echo "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" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
         docker push docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }}
