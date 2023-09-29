@@ -56,7 +56,8 @@ jobs:
 
     - name: Push Docker Image
       run: |
-        docker push docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }}
+       docker push docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:latest
+
 
   deploy-to-test-environment:
     needs: push-docker-image
