@@ -3,7 +3,7 @@ name: Java Tests with Gradle and Docker
 on:
   push:
     branches:
-      - testing-yml-solutions
+      - master
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
+
     - name: Build and Push Docker Image
       working-directory: ${{ github.workspace }}
       run: |
