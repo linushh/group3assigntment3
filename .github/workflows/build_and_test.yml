@@ -36,11 +36,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 	
-    - name: Build JAR
-      working-directory:  ${{ github.workspace }}
-      run: |
-          ./gradlew build
-
     - name: Build and Push Docker Image
       working-directory: ${{ github.workspace }}
       run: |
