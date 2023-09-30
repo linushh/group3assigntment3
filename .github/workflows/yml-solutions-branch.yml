@@ -1,4 +1,4 @@
-name: Java Tests with Gradle and Docker
+name: yml solutions
 
 on:
   push:
