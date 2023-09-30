@@ -3,7 +3,7 @@ name: Java Tests with Gradle and Docker
 on:
   push:
     branches:
-      - testing-yml-solutions
+      - master
 
 jobs:
   build:
