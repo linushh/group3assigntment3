@@ -35,7 +35,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-	
     - name: Build and Push Docker Image
       working-directory: ${{ github.workspace }}
       run: |
