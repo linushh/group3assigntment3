@@ -1,9 +1,7 @@
-name: Java Tests with Gradle and Docker
-
 on:
   push:
     branches:
-      - testing yml solutions
+      - testing-yml-solutions
 
 jobs:
   build:
@@ -24,7 +22,6 @@ jobs:
         wget https://services.gradle.org/distributions/gradle-7.3-bin.zip
         unzip -d /opt/gradle gradle-7.3-bin.zip
         export PATH=$PATH:/opt/gradle/gradle-7.3/bin
-        
     - name: Build with Gradle
       working-directory: ${{ github.workspace }}
       run: |
@@ -37,14 +34,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 	
+    - name: Build JAR
+      run: |
+        ./gradlew build  # Anpassa kommandot efter ditt byggverktyg (t.ex. Maven, Ant)
+        working-directory:  ${{ github.workspace }}
+
     - name: Build and Push Docker Image
       working-directory: ${{ github.workspace }}
       run: |
-        ./gradlew build
         docker build -t docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }} .
         docker login docker.pkg.github.com -u ${{ github.actor }} -p ${{secrets.DOCKER_PAT}}
         docker push docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }}
-  
   deploy-to-test-environment:
     needs: build-docker-image-and-push
     runs-on: ubuntu-latest
