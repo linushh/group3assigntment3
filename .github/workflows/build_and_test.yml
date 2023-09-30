@@ -29,6 +29,7 @@ jobs:
       working-directory: ${{ github.workspace }}
       run: |
         ./gradlew clean build
+        ./gradlew build
 
   build-docker-image-and-push:
     needs: build
@@ -41,7 +42,6 @@ jobs:
     - name: Build and Push Docker Image
       working-directory: ${{ github.workspace }}
       run: |
-        ./gradlew build
         docker build -t docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }} .
         docker login docker.pkg.github.com -u ${{ github.actor }} -p ${{secrets.DOCKER_PAT}}
         docker push docker.pkg.github.com/mikaellinushakansson/group3assigntment3/my-java-app:${{ github.ref_name }}
